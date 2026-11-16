@@ -1,26 +1,37 @@
-name: Sala Operativa 10 Agenti
+import os
+import requests
 
-on:
-  schedule:
-    - cron: '*/30 * * * *'
-  workflow_dispatch:
+# I tuoi dati di Telegram inseriti correttamente
+TOKEN = "9075447043:AAF9TE-ETT7tp8DhVhXCAR63chukUT-1Et8"
+CHAT_ID = "7942569194"
 
-jobs:
-  run-bot:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+def invia_telegram(testo):
+  url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
+  payload = {"chat_id": CHAT_ID, "text": testo, "parse_mode": "Markdown"}
+  try:
+    response = requests.post(url, json=payload)
+    if response.status_code == 200:
+      print("Messaggio inviato con successo!")
+    else:
+      print(f"Errore Telegram: {response.text}")
+  except Exception as e:
+    print(f"Errore di connessione: {e}")
 
-      - name: Install dependencies
-        run: |
-          pip install requests
 
-      - name: Run trading bot
-        run: |
-          python bot.py
+def esegui_sala_operativa():
+  messaggio = (
+      "🏛 *AGENTE SUPERIORE (SALA OPERATIVA)*\n\n"
+      "⏱ *TF 1H —* 🛑 *SELL*\n"
+      "• Prezzo: 3875.3 | RSI: 39.51\n"
+      "• 🛑 SL: 3898.58 | 🎯 TP: 3828.74 |\n"
+      "Lotti: 0.04\n"
+      "• 📊 Volumi: ⚖️ Volumi regolari\n"
+      "• 📐 Pattern: 🔄 Intervallo interno\n"
+      "• 🛡 Filtro: ✅ Condizione armonica"
+  )
+  invia_telegram(messaggio)
+
+
+if __name__ == "__main__":
+  esegui_sala_operativa()
