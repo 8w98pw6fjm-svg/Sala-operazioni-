@@ -2,8 +2,8 @@ name: Sala Operativa 10 Agenti
 
 on:
   schedule:
-    - cron: '0 * * * *'
-  workflow_dispatch:
+    - cron: '*/30 * * * *'  # Si attiva automaticamente ogni 30 minuti
+  workflow_dispatch:        # Ti permette anche di farlo partire manualmente quando vuoi
 
 jobs:
   run-bot:
